@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    url: jdbc:mysql://mysql_oauth2:3306/oauth2?useSSL=false&serverTimezone=UTC
+    username: root
+    password: root
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  security:
+    oauth2:
+      client:
+        registration:
+          github:
+            clientId: ${clientId}
+            clientSecret: ${clientSecretKey}
+            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            scope:
+              - user:email
+              - read:user
+        provider:
+          github:
+            userInfoUri: https://api.github.com/user
+app:
+  auth:
+    tokenSecret: ${tokenKey}
+    tokenExpirationMilliSec: 864000000
+  oauth2:
+    authorizedRedirectUris:
+      - http://0.0.0.0:8080/success
+      - http://localhost:8080/success
